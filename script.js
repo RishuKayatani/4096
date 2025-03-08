@@ -97,7 +97,7 @@ function checkGameOver() {
   // 合体できるタイルがあるか確認
   const gridContainer = document.querySelector('.grid-container');
   const gridCells = Array.from(gridContainer.children);
-  const gridSize = 4;
+  const gridSize = 6;
 
   for (let i = 0; i < gridSize; i++) {
     for (let j = 0; j < gridSize; j++) {
@@ -212,7 +212,7 @@ resetButton.addEventListener('click', resetGame);
 function evaluateBoard() {
   const gridContainer = document.querySelector('.grid-container');
   const gridCells = Array.from(gridContainer.children);
-  const gridSize = 4;
+  const gridSize = 6;
   let score = 0;
 
   // モナトーン性を評価
@@ -274,6 +274,7 @@ function getBestMove() {
   let bestScore = -Infinity;
   let bestDirection = null;
 
+  const gridSize = 6;
   for (const direction of directions) {
     // Simulate move
     const gridContainer = document.querySelector('.grid-container');
