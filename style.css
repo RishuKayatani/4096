@@ -1,0 +1,15 @@
+.grid-container {
+  display: grid;
+  grid-template-columns: repeat(4, 100px);
+  grid-template-rows: repeat(4, 100px);
+  grid-gap: 10px;
+  width: 420px;
+  margin: 0 auto;
+}
+
+.grid-cell {
+  width: 100px;
+  height: 100px;
+  background-color: #eee;
+  border-radius: 5px;
+}
