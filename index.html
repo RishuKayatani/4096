@@ -60,7 +60,9 @@ function generateNewTile(gridCells) {
   if (emptyCells.length > 0) {
     const randomIndex = Math.floor(Math.random() * emptyCells.length);
     const cellIndex = emptyCells[randomIndex];
-    gridCells[cellIndex].textContent = Math.random() < 0.9 ? 2 : 4;
+    const newTile = gridCells[cellIndex];
+    newTile.textContent = Math.random() < 0.9 ? 2 : 4;
+    updateTileColor(newTile);
   }
 }
 
@@ -87,8 +89,10 @@ function moveTiles(direction) {
                 gridCells[k - gridSize].textContent = parseInt(gridCells[k - gridSize].textContent) * 2;
                 const points = parseInt(gridCells[k - gridSize].textContent);
                 updateScore(points);
+                updateTileColor(gridCells[k - gridSize]);
                 gridCells[k].textContent = "";
                 checkGameClear();
+                gridCells.forEach(cell => updateTileColor(cell));
                 break;
               }
               k -= gridSize;
@@ -111,8 +115,10 @@ function moveTiles(direction) {
                 gridCells[k + gridSize].textContent = parseInt(gridCells[k + gridSize].textContent) * 2;
                 const points = parseInt(gridCells[k + gridSize].textContent);
                 updateScore(points);
+                updateTileColor(gridCells[k + gridSize]);
                 gridCells[k].textContent = "";
                 checkGameClear();
+                gridCells.forEach(cell => updateTileColor(cell));
                 break;
               }
               k += gridSize;
@@ -134,8 +140,10 @@ function moveTiles(direction) {
               gridCells[k - 1].textContent = parseInt(gridCells[k - 1].textContent) * 2;
               const points = parseInt(gridCells[k - 1].textContent);
               updateScore(points);
+              updateTileColor(gridCells[k - 1]);
               gridCells[k].textContent = "";
               checkGameClear();
+              gridCells.forEach(cell => updateTileColor(cell));
               break;
             }
             k--;
@@ -158,6 +166,7 @@ function moveTiles(direction) {
               updateScore(points);
               gridCells[k].textContent = "";
               checkGameClear();
+              gridCells.forEach(cell => updateTileColor(cell));
               break;
             }
             k++;
@@ -167,6 +176,7 @@ function moveTiles(direction) {
       break;
   }
   generateNewTile(gridCells);
+  gridCells.forEach(cell => updateTileColor(cell));
   if (checkGameOver()) {
     gameOver();
   }

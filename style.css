@@ -16,4 +16,57 @@ body {
   height: 100px;
   background-color: #eee;
   border-radius: 5px;
+  font-size: 3em;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.grid-cell-2 {
+  background-color: #eee;
+}
+
+.grid-cell-4 {
+  background-color: #ddd;
+}
+
+.grid-cell-8 {
+  background-color: #ccc;
+}
+
+.grid-cell-16 {
+  background-color: #bbb;
+}
+
+.grid-cell-32 {
+  background-color: #aaa;
+}
+
+.grid-cell-64 {
+  background-color: #999;
+}
+
+.grid-cell-128 {
+  background-color: #888;
+}
+
+.grid-cell-256 {
+  background-color: #777;
+}
+
+.grid-cell-512 {
+  background-color: #666;
+}
+
+.grid-cell-1024 {
+  background-color: #555;
+}
+
+.grid-cell-2048 {
+  background-color: #444;
+}
+
+.grid-cell-4096 {
+  background-color: #333;
+  color: white;
 }

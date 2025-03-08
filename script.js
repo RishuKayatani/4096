@@ -10,6 +10,15 @@ function updateScore(points) {
   scoreElement.textContent = score;
 }
 
+// タイルの数字に応じてCSSクラスを付与する関数
+function updateTileColor(tile) {
+  const value = parseInt(tile.textContent);
+  tile.className = 'grid-cell'; // Reset class
+  if (!isNaN(value)) {
+    tile.classList.add('grid-cell-' + value);
+  }
+}
+
 // ゲームクリア判定
 function checkGameClear() {
   // 4096のタイルが存在するか確認する
