@@ -52,7 +52,7 @@ function testCheckGameClear() {
 }
 
 // テストコードを実行する
-testCheckGameClear();
+// testCheckGameClear();
 
 // ゲームオーバー判定
 function checkGameOver() {
