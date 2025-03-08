@@ -53,3 +53,52 @@ function testCheckGameClear() {
 
 // テストコードを実行する
 testCheckGameClear();
+
+// ゲームオーバー判定
+function checkGameOver() {
+  // 空きスペースがあるか確認
+  const emptyTiles = document.querySelectorAll('.empty');
+  if (emptyTiles.length > 0) {
+    return false;
+  }
+
+  // 合体できるタイルがあるか確認
+  const tiles = document.querySelectorAll('.tile');
+  for (let i = 0; i < tiles.length; i++) {
+    const tile = tiles[i];
+    const row = tile.parentNode.rowIndex;
+    const col = tile.cellIndex;
+
+    // 上下左右のタイルを確認
+    const up = document.querySelector('table tr:nth-child(' + (row - 1) + ') td:nth-child(' + col + ') .tile');
+    const down = document.querySelector('table tr:nth-child(' + (row + 1) + ') td:nth-child(' + col + ') .tile');
+    const left = document.querySelector('table tr:nth-child(' + row + ') td:nth-child(' + (col - 1) + ') .tile');
+    const right = document.querySelector('table tr:nth-child(' + row + ') td:nth-child(' + (col + 1) + ') .tile');
+
+    if (up && tile.textContent === up.textContent) {
+      return false;
+    }
+    if (down && tile.textContent === down.textContent) {
+      return false;
+    }
+    if (left && tile.textContent === left.textContent) {
+      return false;
+    }
+    if (right && tile.textContent === right.textContent) {
+      return false;
+    }
+  }
+
+  // ゲームオーバー画面を表示
+  gameOver();
+  return true;
+}
+
+// ゲームオーバー画面を表示する関数
+function gameOver() {
+  alert('ゲームオーバー！');
+}
+
+// ゲームオーバー判定を呼び出す例
+// (実際には、タイルが生成・合体した後にこの関数を呼び出す)
+// checkGameOver();
