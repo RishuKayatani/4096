@@ -156,3 +156,16 @@ function testCheckGameOver() {
 // ゲームオーバー判定を呼び出す例
 // (実際には、タイルが生成・合体した後にこの関数を呼び出す)
 //checkGameOver();
+
+function resetGame() {
+  const gridContainer = document.querySelector('.grid-container');
+  const gridCells = Array.from(gridContainer.children);
+  gridCells.forEach(cell => cell.textContent = "");
+  generateNewTile(gridCells);
+  generateNewTile(gridCells);
+  score = 0;
+  updateScore(0);
+}
+
+const resetButton = document.getElementById('reset-button');
+resetButton.addEventListener('click', resetGame);
