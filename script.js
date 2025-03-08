@@ -75,16 +75,16 @@ function checkGameOver() {
     const left = document.querySelector('table tr:nth-child(' + row + ') td:nth-child(' + (col - 1) + ') .tile');
     const right = document.querySelector('table tr:nth-child(' + row + ') td:nth-child(' + (col + 1) + ') .tile');
 
-    if (up && tile.textContent === up.textContent) {
+    if (up && up.textContent === tile.textContent) {
       return false;
     }
-    if (down && tile.textContent === down.textContent) {
+    if (down && down.textContent === tile.textContent) {
       return false;
     }
-    if (left && tile.textContent === left.textContent) {
+    if (left && left.textContent === tile.textContent) {
       return false;
     }
-    if (right && tile.textContent === right.textContent) {
+    if (right && right.textContent === tile.textContent) {
       return false;
     }
   }
