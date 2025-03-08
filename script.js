@@ -97,11 +97,6 @@ function gameOver() {
   alert('ゲームオーバー！');
 }
 
-// ゲームオーバー画面を表示する関数
-function gameOver() {
-  alert('ゲームオーバー！');
-}
-
 // ゲームオーバー判定を呼び出す例
 // (実際には、タイルが生成・合体した後にこの関数を呼び出す)
 //checkGameOver();
