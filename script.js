@@ -132,7 +132,7 @@ function testCheckGameOver() {
 }
 
 // テストコードを実行する
-testCheckGameOver();
+//testCheckGameOver();
 
 // ゲームオーバー判定を呼び出す例
 // (実際には、タイルが生成・合体した後にこの関数を呼び出す)
