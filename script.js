@@ -97,6 +97,43 @@ function gameOver() {
   alert('ゲームオーバー！');
 }
 
+function testCheckGameOver() {
+  // 空きスペースがない場合
+  document.body.innerHTML = '<div class="tile">2</div><div class="tile">4</div><div class="tile">8</div><div class="tile">16</div>';
+  if (checkGameOver() === false) {
+    console.log('テスト1: 成功');
+  } else {
+    console.error('テスト1: 失敗');
+  }
+
+  // 空きスペースがあり、合体できるタイルがない場合
+  document.body.innerHTML = '<div class="tile">2</div><div class="tile">4</div><div class="tile">8</div><div class="tile">16</div><div class="empty"></div>';
+  if (checkGameOver() === false) {
+    console.log('テスト2: 成功');
+  } else {
+    console.error('テスト2: 失敗');
+  }
+
+  // 空きスペースがなく、合体できるタイルがある場合
+  document.body.innerHTML = '<div class="tile">2</div><div class="tile">2</div><div class="tile">8</div><div class="tile">16</div>';
+  if (checkGameOver() === false) {
+    console.log('テスト3: 成功');
+  } else {
+    console.error('テスト3: 失敗');
+  }
+
+  // 空きスペースがなく、合体できるタイルがない場合
+  document.body.innerHTML = '<div class="tile">2</div><div class="tile">4</div><div class="tile">8</div><div class="tile">16</div>';
+  if (checkGameOver() === true) {
+    console.log('テスト4: 成功');
+  } else {
+    console.error('テスト4: 失敗');
+  }
+}
+
+// テストコードを実行する
+testCheckGameOver();
+
 // ゲームオーバー判定を呼び出す例
 // (実際には、タイルが生成・合体した後にこの関数を呼び出す)
 //checkGameOver();
