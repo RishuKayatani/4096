@@ -74,7 +74,7 @@ function moveTiles(direction) {
   switch (direction) {
     case 'up':
       for (let i = 0; i < gridSize; i++) {
-        for (let j = gridSize; j < gridSize * gridSize; j++) {
+        for (let j = gridSize * gridSize; j < gridSize * gridSize; j++) {
           if (j % gridSize === i) {
             let k = j;
             while (k - gridSize >= 0) {
@@ -87,7 +87,7 @@ function moveTiles(direction) {
                 const points = parseInt(gridCells[k - gridSize].textContent);
                 updateScore(points);
                 gridCells[k].textContent = "";
-                
+                checkGameClear();
                 break;
               }
               k -= gridSize;
@@ -111,6 +111,7 @@ function moveTiles(direction) {
                 const points = parseInt(gridCells[k + gridSize].textContent);
                 updateScore(points);
                 gridCells[k].textContent = "";
+                checkGameClear();
                 break;
               }
               k += gridSize;
@@ -133,6 +134,7 @@ function moveTiles(direction) {
               const points = parseInt(gridCells[k - 1].textContent);
               updateScore(points);
               gridCells[k].textContent = "";
+              checkGameClear();
               break;
             }
             k--;
@@ -154,6 +156,7 @@ function moveTiles(direction) {
               const points = parseInt(gridCells[k + 1].textContent);
               updateScore(points);
               gridCells[k].textContent = "";
+              checkGameClear();
               break;
             }
             k++;
@@ -165,4 +168,6 @@ function moveTiles(direction) {
   generateNewTile(gridCells);
 }
 </script>
+<script src="script.js"></script>
 </body>
+</html>
