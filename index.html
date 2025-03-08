@@ -5,6 +5,9 @@
 <link rel="stylesheet" href="style.css">
 </head>
 <body>
+  <div id="score-container">
+    <p>Score: <span id="score">0</span></p>
+  </div>
 <div class="grid-container">
 <div class="grid-cell">2</div>
 <div class="grid-cell"></div>
@@ -81,6 +84,8 @@ function moveTiles(direction) {
                 break;
               } else if (gridCells[k - gridSize].textContent == gridCells[k].textContent) {
                 gridCells[k - gridSize].textContent = parseInt(gridCells[k - gridSize].textContent) * 2;
+                const points = parseInt(gridCells[k - gridSize].textContent);
+                updateScore(points);
                 gridCells[k].textContent = "";
                 
                 break;
@@ -103,6 +108,8 @@ function moveTiles(direction) {
                 break;
               } else if (gridCells[k + gridSize].textContent == gridCells[k].textContent) {
                 gridCells[k + gridSize].textContent = parseInt(gridCells[k + gridSize].textContent) * 2;
+                const points = parseInt(gridCells[k + gridSize].textContent);
+                updateScore(points);
                 gridCells[k].textContent = "";
                 break;
               }
@@ -123,6 +130,8 @@ function moveTiles(direction) {
               break;
             } else if (gridCells[k - 1].textContent == gridCells[k].textContent) {
               gridCells[k - 1].textContent = parseInt(gridCells[k - 1].textContent) * 2;
+              const points = parseInt(gridCells[k - 1].textContent);
+              updateScore(points);
               gridCells[k].textContent = "";
               break;
             }
@@ -142,6 +151,8 @@ function moveTiles(direction) {
               break;
             } else if (gridCells[k + 1].textContent == gridCells[k].textContent) {
               gridCells[k + 1].textContent = parseInt(gridCells[k + 1].textContent) * 2;
+              const points = parseInt(gridCells[k + 1].textContent);
+              updateScore(points);
               gridCells[k].textContent = "";
               break;
             }
