@@ -7,6 +7,10 @@
   margin: 0 auto;
 }
 
+body {
+  font-family: "Hiragino Kaku Gothic ProN", sans-serif;
+}
+
 .grid-cell {
   width: 100px;
   height: 100px;
