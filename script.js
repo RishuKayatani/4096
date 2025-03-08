@@ -89,9 +89,12 @@ function checkGameOver() {
     }
   }
 
-  // ゲームオーバー画面を表示
-  gameOver();
   return true;
+}
+
+// ゲームオーバー画面を表示
+function gameOver() {
+  alert('ゲームオーバー！');
 }
 
 // ゲームオーバー画面を表示する関数
