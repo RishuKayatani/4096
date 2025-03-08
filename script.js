@@ -1,13 +1,35 @@
 // スコアを初期化
 let score = 0;
 
+function setHighScore(score) {
+  localStorage.setItem('highScore', score);
+}
+
+function getHighScore() {
+  return localStorage.getItem('highScore') || 0;
+}
+
+function displayHighScore() {
+  const highScore = getHighScore();
+  alert('最高スコア: ' + highScore);
+}
+
 // スコアを表示する要素を取得
 const scoreElement = document.getElementById('score');
+const highScoreElement = document.getElementById('high-score');
+
+function updateHighScoreDisplay() {
+  const highScore = getHighScore();
+  highScoreElement.textContent = '最高スコア: ' + highScore;
+}
+
+updateHighScoreDisplay();
 
 // スコアを更新する関数
 function updateScore(points) {
   score += points;
   scoreElement.textContent = score;
+  updateHighScoreDisplay();
 }
 
 // タイルの数字に応じてCSSクラスを付与する関数
@@ -114,6 +136,13 @@ function checkGameOver() {
 // ゲームオーバー画面を表示
 function gameOver() {
   alert('ゲームオーバー！');
+  const currentScore = score;
+  const highScore = getHighScore();
+  if (currentScore > highScore) {
+    setHighScore(currentScore);
+    alert('最高スコア更新！: ' + currentScore);
+    updateHighScoreDisplay();
+  }
 }
 
 function testCheckGameOver() {
@@ -163,8 +192,14 @@ function resetGame() {
   gridCells.forEach(cell => cell.textContent = "");
   generateNewTile(gridCells);
   generateNewTile(gridCells);
+  const currentScore = score;
+  const highScore = getHighScore();
+  if (currentScore > highScore) {
+    setHighScore(currentScore);
+  }
   score = 0;
   updateScore(0);
+  updateHighScoreDisplay();
 }
 
 const resetButton = document.getElementById('reset-button');
