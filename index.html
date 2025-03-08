@@ -167,8 +167,11 @@ function moveTiles(direction) {
       break;
   }
   generateNewTile(gridCells);
+  if (checkGameOver()) {
+    gameOver();
+  }
 }
 </script>
-<script src="script.js"></script>
+<script src="script.js" defer></script>
 </body>
 </html>
