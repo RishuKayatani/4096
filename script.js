@@ -16,8 +16,6 @@ function updateTileColor(tile) {
   tile.className = 'grid-cell'; // Reset class
   if (!isNaN(value)) {
     tile.classList.add('grid-cell-' + value);
-  } else {
-    tile.style.backgroundColor = "#eee";
   }
 }
 
