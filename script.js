@@ -141,9 +141,9 @@ function gameOver() {
   const highScore = getHighScore();
   if (currentScore > highScore) {
     setHighScore(currentScore);
-    alert('最高スコア更新！: ' + currentScore);
     updateHighScoreDisplay();
   }
+  stopAutoPlay();
 }
 
 function testCheckGameOver() {
@@ -190,7 +190,10 @@ function testCheckGameOver() {
 function resetGame() {
   const gridContainer = document.querySelector('.grid-container');
   const gridCells = Array.from(gridContainer.children);
-  gridCells.forEach(cell => cell.textContent = "");
+  gridCells.forEach(cell => {
+    cell.textContent = "";
+    updateTileColor(cell);
+  });
   generateNewTile(gridCells);
   generateNewTile(gridCells);
   const currentScore = score;
@@ -205,3 +208,135 @@ function resetGame() {
 
 const resetButton = document.getElementById('reset-button');
 resetButton.addEventListener('click', resetGame);
+
+function evaluateBoard() {
+  const gridContainer = document.querySelector('.grid-container');
+  const gridCells = Array.from(gridContainer.children);
+  const gridSize = 4;
+  let score = 0;
+
+  // モナトーン性を評価
+  let monotonicityLeftRight = 0;
+  let monotonicityUpDown = 0;
+  for (let i = 0; i < gridSize; i++) {
+    let currentLeftRight = 0;
+    let currentUpDown = 0;
+    for (let j = 0; j < gridSize - 1; j++) {
+      const currentValueLeftRight = parseInt(gridCells[i * gridSize + j].textContent) || 0;
+      const nextValueLeftRight = parseInt(gridCells[i * gridSize + j + 1].textContent) || 0;
+      monotonicityLeftRight += (currentValueLeftRight > nextValueLeftRight) ? currentValueLeftRight - nextValueLeftRight : nextValueLeftRight - currentValueLeftRight;
+
+      const currentValueUpDown = parseInt(gridCells[j * gridSize + i].textContent) || 0;
+      const nextValueUpDown = parseInt(gridCells[(j + 1) * gridSize + i].textContent) || 0;
+      monotonicityUpDown += (currentValueUpDown > nextValueUpDown) ? currentValueUpDown - nextValueUpDown : nextValueUpDown - currentValueUpDown;
+    }
+  }
+  score -= monotonicityLeftRight + monotonicityUpDown;
+
+  // 最大タイルを角に配置する評価
+  let maxTileValue = 0;
+  let maxTilePosition = null;
+  for (let i = 0; i < gridSize; i++) {
+    for (let j = 0; j < gridSize; j++) {
+      const value = parseInt(gridCells[i * gridSize + j].textContent) || 0;
+      if (value > maxTileValue) {
+        maxTileValue = value;
+        maxTilePosition = { i, j };
+      }
+    }
+  }
+
+  if (maxTilePosition) {
+    if ((maxTilePosition.i === 0 && maxTilePosition.j === 0) ||
+      (maxTilePosition.i === 0 && maxTilePosition.j === gridSize - 1) ||
+      (maxTilePosition.i === gridSize - 1 && maxTilePosition.j === 0) ||
+      (maxTilePosition.i === gridSize - 1 && maxTilePosition.j === gridSize - 1)) {
+      score += maxTileValue * 0.5;
+    }
+  }
+
+  // 空きマスの評価
+  let emptyCount = 0;
+  for (let i = 0; i < gridSize; i++) {
+    for (let j = 0; j < gridSize; j++) {
+      if (!gridCells[i * gridSize + j].textContent) {
+        emptyCount++;
+      }
+    }
+  }
+  score += emptyCount * 10;
+
+  return score;
+}
+
+function getBestMove() {
+  const directions = ['up', 'down', 'left', 'right'];
+  let bestScore = -Infinity;
+  let bestDirection = null;
+
+  for (const direction of directions) {
+    // Simulate move
+    const gridContainer = document.querySelector('.grid-container');
+    const gridCells = Array.from(gridContainer.children);
+    const originalGrid = gridCells.map(cell => cell.textContent);
+    let score = -Infinity;
+    // Simulate move
+    moveTiles(direction);
+    let simulatedScore = evaluateBoard();
+    if (checkGameOver()) {
+      simulatedScore = -Infinity;
+    }
+
+    // Undo move
+    const gridContainer2 = document.querySelector('.grid-container');
+    const gridCells2 = Array.from(gridContainer2.children);
+    for (let i = 0; i < gridCells2.length; i++) {
+      gridCells2[i].textContent = originalGrid[i];
+      updateTileColor(gridCells2[i]);
+    }
+
+    if (score > bestScore) {
+      bestScore = score;
+      bestDirection = direction;
+    }
+  }
+
+  return bestDirection;
+}
+
+let autoPlayInterval;
+
+function autoPlay() {
+  if (checkGameOver() || checkGameClear()) {
+    stopAutoPlay();
+    return;
+  }
+  const bestDirection = getBestMove();
+  if (bestDirection) {
+    moveTiles(bestDirection);
+  } else {
+    // If no best direction, move randomly
+    const directions = ['up', 'down', 'left', 'right'];
+    const randomIndex = Math.floor(Math.random() * directions.length);
+    const direction = directions[randomIndex];
+    moveTiles(direction);
+  }
+}
+
+const autoPlayButton = document.getElementById('auto-play-button');
+autoPlayButton.addEventListener('click', function() {
+  if (autoPlayInterval) {
+    stopAutoPlay();
+    //autoPlayButton.disabled = false;
+  } else {
+    autoPlayButton.textContent = '自動プレイ中止';
+    //autoPlayButton.disabled = true;
+    autoPlayInterval = setInterval(autoPlay, 100);
+  }
+});
+
+function stopAutoPlay() {
+  clearInterval(autoPlayInterval);
+  autoPlayInterval = null;
+  autoPlayButton.textContent = '自動プレイ';
+}
