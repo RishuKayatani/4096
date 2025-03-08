@@ -57,35 +57,45 @@ function testCheckGameClear() {
 // ゲームオーバー判定
 function checkGameOver() {
   // 空きスペースがあるか確認
-  const emptyTiles = document.querySelectorAll('.empty');
+  const emptyTiles = document.querySelectorAll('.grid-cell:empty');
   if (emptyTiles.length > 0) {
     return false;
   }
 
   // 合体できるタイルがあるか確認
-  const tiles = document.querySelectorAll('.tile');
-  for (let i = 0; i < tiles.length; i++) {
-    const tile = tiles[i];
-    const row = tile.parentNode.rowIndex;
-    const col = tile.cellIndex;
+  const gridContainer = document.querySelector('.grid-container');
+  const gridCells = Array.from(gridContainer.children);
+  const gridSize = 4;
 
-    // 上下左右のタイルを確認
-    const up = document.querySelector('table tr:nth-child(' + (row - 1) + ') td:nth-child(' + col + ') .tile');
-    const down = document.querySelector('table tr:nth-child(' + (row + 1) + ') td:nth-child(' + col + ') .tile');
-    const left = document.querySelector('table tr:nth-child(' + row + ') td:nth-child(' + (col - 1) + ') .tile');
-    const right = document.querySelector('table tr:nth-child(' + row + ') td:nth-child(' + (col + 1) + ') .tile');
+  for (let i = 0; i < gridSize; i++) {
+    for (let j = 0; j < gridSize; j++) {
+      const index = i * gridSize + j;
+      const cell = gridCells[index];
+      const value = parseInt(cell.textContent);
 
-    if (up && up !== null && up.textContent === tile.textContent) {
-      return false;
-    }
-    if (down && down !== null && down.textContent === tile.textContent) {
-      return false;
-    }
-    if (left && left !== null && left.textContent === tile.textContent) {
-      return false;
-    }
-    if (right && right !== null && right.textContent === tile.textContent) {
-      return false;
+      if (isNaN(value)) continue;
+
+      // 右方向のチェック
+      if (j < gridSize - 1) {
+        const rightCell = gridCells[index + 1];
+        if (rightCell && rightCell.textContent) {
+          const rightValue = parseInt(rightCell.textContent);
+          if (value === rightValue) {
+            return false;
+          }
+        }
+      }
+
+      // 下方向のチェック
+      if (i < gridSize - 1) {
+        const downCell = gridCells[index + gridSize];
+        if (downCell && downCell.textContent) {
+          const downValue = parseInt(downCell.textContent);
+          if (value === downValue) {
+            return false;
+          }
+        }
+      }
     }
   }
 
@@ -99,15 +109,15 @@ function gameOver() {
 
 function testCheckGameOver() {
   // 空きスペースがない場合
-  document.body.innerHTML = '<div class="tile">2</div><div class="tile">4</div><div class="tile">8</div><div class="tile">16</div>';
-  if (checkGameOver() === false) {
+  document.body.innerHTML = '<div class="grid-cell">2</div><div class="grid-cell">4</div><div class="grid-cell">8</div><div class="grid-cell">16</div>';
+  if (checkGameOver() === true) {
     console.log('テスト1: 成功');
   } else {
     console.error('テスト1: 失敗');
   }
 
   // 空きスペースがあり、合体できるタイルがない場合
-  document.body.innerHTML = '<div class="tile">2</div><div class="tile">4</div><div class="tile">8</div><div class="tile">16</div><div class="empty"></div>';
+  document.body.innerHTML = '<div class="grid-cell">2</div><div class="grid-cell">4</div><div class="grid-cell">8</div><div class="grid-cell">16</div><div class="grid-cell"></div>';
   if (checkGameOver() === false) {
     console.log('テスト2: 成功');
   } else {
@@ -115,7 +125,7 @@ function testCheckGameOver() {
   }
 
   // 空きスペースがなく、合体できるタイルがある場合
-  document.body.innerHTML = '<div class="tile">2</div><div class="tile">2</div><div class="tile">8</div><div class="tile">16</div>';
+  document.body.innerHTML = '<div class="grid-cell">2</div><div class="grid-cell">2</div><div class="grid-cell">8</div><div class="grid-cell">16</div>';
   if (checkGameOver() === false) {
     console.log('テスト3: 成功');
   } else {
@@ -123,7 +133,7 @@ function testCheckGameOver() {
   }
 
   // 空きスペースがなく、合体できるタイルがない場合
-  document.body.innerHTML = '<div class="tile">2</div><div class="tile">4</div><div class="tile">8</div><div class="tile">16</div>';
+  document.body.innerHTML = '<div class="grid-cell">2</div><div class="grid-cell">4</div><div class="grid-cell">8</div><div class="grid-cell">16</div>';
   if (checkGameOver() === true) {
     console.log('テスト4: 成功');
   } else {
