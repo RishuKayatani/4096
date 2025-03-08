@@ -36,6 +36,7 @@ function updateScore(points) {
 function updateTileColor(tile) {
   const value = parseInt(tile.textContent);
   tile.className = 'grid-cell'; // Reset class
+  tile.style.animation = ''; // アニメーションをリセット
   if (!isNaN(value)) {
     tile.classList.add('grid-cell-' + value);
   }
