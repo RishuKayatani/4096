@@ -30,7 +30,7 @@ function checkGameClear() {
 
 // ゲームクリア判定を呼び出す例
 // (実際には、タイルが生成・合体した後にこの関数を呼び出す)
-checkGameClear();
+//checkGameClear();
 
 // テストコード
 function testCheckGameClear() {
@@ -101,4 +101,4 @@ function gameOver() {
 
 // ゲームオーバー判定を呼び出す例
 // (実際には、タイルが生成・合体した後にこの関数を呼び出す)
-checkGameOver();
+//checkGameOver();
